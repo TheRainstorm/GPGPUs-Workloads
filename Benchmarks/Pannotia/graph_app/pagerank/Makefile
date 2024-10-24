@@ -1,6 +1,6 @@
 main ?= default
 exe = pagerank
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 ifeq ($(main),default)

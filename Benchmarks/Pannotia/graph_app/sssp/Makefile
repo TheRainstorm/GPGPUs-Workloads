@@ -1,6 +1,6 @@
 main ?= csr
 exe = sssp
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 ifeq ($(main),csr)

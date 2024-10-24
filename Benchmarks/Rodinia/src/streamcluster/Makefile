@@ -1,7 +1,7 @@
 include ../../common/make.config
 
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 INCLUDE := $(CUDA_DIR)/include
 
@@ -31,6 +31,6 @@ $(TARGET_G): streamcluster_cuda_cpu.cpp streamcluster_cuda.cu streamcluster_head
 	
 
 clean:
-	rm -f *.o *~ *.txt $(TARGET_G) *.linkinfo
+	rm -f *.o *~ $(TARGET_G) *.linkinfo
 	
 
