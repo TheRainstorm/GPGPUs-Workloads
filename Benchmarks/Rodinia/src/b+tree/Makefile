@@ -14,9 +14,9 @@ C_C = gcc
 # ===============================================================
 #	NVCC
 # ===============================================================
-CUDA_LIB =	-lcuda -lcudart
+CUDA_LIB =	-lcuda -lcudart -lstdc++
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 
@@ -104,5 +104,4 @@ clean:
 		./kernel/*.o \
 		./util/timer/*.o \
 		./util/num/*.o \
-		./util/cuda/*.o \
-        *.txt
+		./util/cuda/*.o

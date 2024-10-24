@@ -1,6 +1,6 @@
 main ?= max
 exe = color
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 ifeq ($(main),max)

@@ -2,7 +2,7 @@ include ../../common/make.config
 
 CC = gcc
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3 -Icommon -lm
 
 DEFS += -DGPU_TIMER $(SPACE)

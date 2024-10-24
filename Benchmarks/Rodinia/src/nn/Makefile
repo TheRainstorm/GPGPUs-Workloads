@@ -2,7 +2,7 @@ include ../../common/make.config
 
 LOCAL_CC = gcc -g -O3 -Wall -w
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 INCLUDE := $(CUDA_DIR)/include
 

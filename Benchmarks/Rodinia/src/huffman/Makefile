@@ -3,7 +3,7 @@ include ../../common/make.config
 CC = g++
 GCC_OPTS=-O3 -Wall -Wextra -m64
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -w -Xptxas -O3
 
 OBJ = main_test_cu.o stats_logger.o vlc_kernel_sm64huff.o scan.o pack_kernels.o cpuencode.o

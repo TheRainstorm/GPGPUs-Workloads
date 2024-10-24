@@ -1,5 +1,5 @@
 exe = bc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 src = BC.cu 

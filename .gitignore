@@ -42,3 +42,27 @@
 ehthumbs.db
 Thumbs.db
 
+bin/
+# make executeable files
+Benchmarks/Rodinia/src/backprop/backprop
+Benchmarks/Rodinia/src/bfs/bfs
+Benchmarks/Rodinia/src/cfd/euler3d
+Benchmarks/Rodinia/src/cfd/euler3d_double
+Benchmarks/Rodinia/src/cfd/pre_euler3d
+Benchmarks/Rodinia/src/cfd/pre_euler3d_double
+Benchmarks/Rodinia/src/dwt2d/dwt2d
+Benchmarks/Rodinia/src/gaussian/gaussian
+Benchmarks/Rodinia/src/heartwall/heartwall
+Benchmarks/Rodinia/src/hotspot/hotspot
+Benchmarks/Rodinia/src/hotspot3D/3D
+Benchmarks/Rodinia/src/huffman/pavle
+Benchmarks/Rodinia/src/lavaMD/lavaMD
+Benchmarks/Rodinia/src/lud/lud_cuda
+Benchmarks/Rodinia/src/nn/hurricane_gen
+Benchmarks/Rodinia/src/nn/nn
+Benchmarks/Rodinia/src/nw/needle
+Benchmarks/Rodinia/src/particlefilter/particlefilter_float
+Benchmarks/Rodinia/src/particlefilter/particlefilter_naive
+Benchmarks/Rodinia/src/pathfinder/pathfinder
+Benchmarks/Rodinia/src/streamcluster/sc_gpu
+Benchmarks/Rodinia/src/b+tree/b+tree

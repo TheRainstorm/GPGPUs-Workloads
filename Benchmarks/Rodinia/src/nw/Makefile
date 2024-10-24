@@ -2,7 +2,7 @@ include ../../common/make.config
 
 KERNEL_DIM := -DRD_WG_SIZE_0=16
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 INCLUDE := $(CUDA_DIR)/include
 

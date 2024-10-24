@@ -20,7 +20,7 @@ OMP_FLAG = -fopenmp
 KERNEL_DIM := -DRD_WG_SIZE_0=128
 
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -w -Xptxas -O3
 
 

@@ -3,7 +3,7 @@ include ../../common/make.config
 
 INCLUDE := $(CUDA_DIR)/include
 NVCC := $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 SRC = bfs.cu

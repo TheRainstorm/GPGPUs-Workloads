@@ -6,7 +6,7 @@ CC_FLAGS = -w -g  -O2
 
 # CUDA compiler
 NVCC = $(CUDA_DIR)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -Xptxas -O3
 
 # 'make dbg=1' enables NVCC debugging

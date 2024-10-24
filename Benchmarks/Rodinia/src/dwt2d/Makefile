@@ -6,7 +6,7 @@ CUDA_INSTALL_PATH = $(CUDA_DIR)
 
 
 NVCC := $(CUDA_INSTALL_PATH)/bin/nvcc
-ARCH := -arch=sm_70
+ARCH ?= -arch=sm_70
 NVCC_FLAGS := -w -Xptxas -O3
 EXECUTABLE := dwt2d
 
