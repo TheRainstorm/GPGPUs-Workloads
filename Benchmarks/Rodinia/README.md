@@ -1,3 +1,9 @@
+## Get source
+
+https://lava.cs.virginia.edu/Rodinia/download_links.htm
+
+data files are included in the source tar file.
+
 ## To build:
 
 * build all applications with make command
