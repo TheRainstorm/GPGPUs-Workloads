@@ -19,5 +19,14 @@ rodinia-3.1: prepare_dir
 	cp Benchmarks/Rodinia/src/particlefilter/particlefilter_naive $(BIN)/particlefilter_naive-rodinia-3.1
 	cp Benchmarks/Rodinia/src/streamcluster/sc_gpu $(BIN)/streamcluster-rodinia-3.1
 
+polybench: prepare_dir
+	make all -C Benchmarks/PolyBench
+	for file in "Benchmarks/PolyBench/bin"/*.out; do \
+		basename=$$(basename $$file .out); \
+		new_name="polybench-$$basename"; \
+		echo cp "$$file" "$(BIN)/$$new_name"; \
+		cp "$$file" "$(BIN)/$$new_name"; \
+	done
+
 clean:
 	make clean -C Benchmarks/Rodinia
