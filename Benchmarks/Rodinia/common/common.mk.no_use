@@ -37,6 +37,7 @@
 
 # Add new SM Versions here as devices with new Compute Capability are released
 SM_VERSIONS := sm_70
+ARCH 		?= -arch=sm_70
 
 CUDA_INSTALL_PATH ?= /software/cuda-10.1
 
@@ -285,10 +286,10 @@ $(OBJDIR)/%.cpp_o : $(SRCDIR)%.cpp $(C_DEPS)
 	$(VERBOSE)$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.cu_o : $(SRCDIR)%.cu $(CU_DEPS)
-	$(VERBOSE)$(NVCC) $(NVCCFLAGS) $(SMVERSIONFLAGS) -o $@ -c $<
+	$(VERBOSE)$(NVCC) $(NVCCFLAGS) $(ARCH) $(SMVERSIONFLAGS) -o $@ -c $<
 
 $(CUBINDIR)/%.cubin : $(SRCDIR)%.cu cubindirectory
-	$(VERBOSE)$(NVCC) $(CUBIN_ARCH_FLAG) $(NVCCFLAGS) $(SMVERSIONFLAGS) -o $@ -cubin $<
+	$(VERBOSE)$(NVCC) $(CUBIN_ARCH_FLAG) $(NVCCFLAGS) $(ARCH) $(SMVERSIONFLAGS) -o $@ -cubin $<
 
 #
 # The following definition is a template that gets instantiated for each SM
