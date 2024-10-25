@@ -7,11 +7,13 @@
           # .
 	# command n
 
+NVCC = $(CUDA_DIR)/bin/nvcc
+NVCC_FLAGS = -I$(CUDA_DIR)/include -L$(CUDA_DIR)/lib
+ARCH ?= -arch=sm_70
+
 # link objects(binaries) together
 myocyte.out:		main.o
-	nvcc	main.o \
-				-I/usr/local/cuda/include \
-				-L/usr/local/cuda/lib \
+	$(NVCC) $(NVCC_FLAGS) $(ARCH)	main.o \
 				-lm -lcuda -lcudart \
                                 -o myocyte.out
 
@@ -35,9 +37,9 @@ main.o:	define.c \
 				kernel_fin_2.cu \
 				file.c \
 				timer.c
-	nvcc	main.cu \
+	$(NVCC) $(NVCC_FLAGS) $(ARCH)	main.cu \
 				-c -O3 -g
 
 # delete all object files
 clean:
-	rm *.o *.out output.txt
+	rm -f *.o *.out output.txt

@@ -9,6 +9,7 @@ CUDA_INSTALL_PATH := $(CUDA_DIR)
 
 # Compilers
 NVCC       := $(CUDA_INSTALL_PATH)/bin/nvcc 
+ARCH	   ?= -arch=sm_70
 CXX        := g++ -fopenmp $(PROFILE)
 CC         := gcc 
 LINK       := g++ -fopenmp -m64 -fPIC $(PROFILE)
@@ -28,9 +29,9 @@ CCFILES		:= \
 # Basic directory setup for SDK
 # (override directories only if they are not already defined)
 SRCDIR     ?= 
-ROOTDIR    ?= ..
-ROOTBINDIR ?= $(ROOTDIR)/bin
-BINDIR     ?= $(ROOTBINDIR)
+ROOTDIR    := ..
+ROOTBINDIR := $(ROOTDIR)/bin
+BINDIR     := $(ROOTBINDIR)
 ROOTOBJDIR ?= obj
 LIBDIR     := $(ROOTDIR)/lib
 BINNAME    ?= mummergpu
@@ -115,15 +116,15 @@ $(OBJDIR)/%.cpp_o : $(SRCDIR)%.cpp
 
 #.cu.cu_$(APPEND)_o:
 $(OBJDIR)/%.cu_o : $(SRCDIR)%.cu
-	$(NVCC) -o $@ -c $< $(NVCCFLAGS)
+	$(NVCC) -o $@ -c $< $(NVCCFLAGS) $(ARCH)
 
 #.cu.cubin
 %.cubin : $(SRCDIR)mummergpu.cu mummergpu_kernel.cu
-	$(NVCC) -o $(BINNAME).cubin -cubin $< $(NVCCFLAGS)
+	$(NVCC) -o $(BINNAME).cubin -cubin $< $(NVCCFLAGS) $(ARCH)
 
 #.cu.ptx
 %.ptx : $(SRCDIR)%.cu mummergpu_kernel.cu
-	$(NVCC) -o $@ -ptx -Xopencc -LIST:source=on $< $(NVCCFLAGS)
+	$(NVCC) -o $@ -ptx -Xopencc -LIST:source=on $< $(NVCCFLAGS) $(ARCH)
 
 makedirectories:
 	@mkdir -p $(LIBDIR)

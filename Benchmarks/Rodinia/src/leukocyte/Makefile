@@ -1,8 +1,8 @@
 all: CUDA/leukocyte 
 
 CUDA/leukocyte:
-	cd CUDA; make
+	make -C CUDA
 
 clean:
-	cd CUDA; make clean
+	make clean -C CUDA
 	rm -f meschach_lib/meschach.a

@@ -1,8 +1,8 @@
 include ../../../common/make.config
 
-CC := $(CUDA_DIR)/bin/nvcc
-
-INCLUDE := $(CUDA_DIR)/include
+NVCC = $(CUDA_DIR)/bin/nvcc
+NVCC_FLAGS = -I$(CUDA_DIR)/include -L$(CUDA_DIR)/lib
+ARCH ?= -arch=sm_70
 
 # Example
 # target: dependencies
@@ -15,9 +15,7 @@ INCLUDE := $(CUDA_DIR)/include
 
 # link objects(binaries) together
 a.out:		main.o
-	$(CC)	main.o \
-				-I$(INCLUDE) \
-				-L$(CUDA_LIB_DIR)  \
+	$(NVCC) $(NVCC_FLAGS) $(ARCH)	main.o \
 				-lm -lcuda -lcudart -o srad
 
 # compile main function file into object (binary)
@@ -30,9 +28,9 @@ main.o: 	main.cu \
 				srad_kernel.cu \
 				srad2_kernel.cu \
 				compress_kernel.cu
-	nvcc	main.cu \
-				-c -O3 -arch sm_35
+	$(NVCC) $(NVCC_FLAGS) $(ARCH)	main.cu \
+				-c -O3
 
 # delete all object files
 clean:
-	rm *.o srad
+	rm -f *.o srad *.pgm

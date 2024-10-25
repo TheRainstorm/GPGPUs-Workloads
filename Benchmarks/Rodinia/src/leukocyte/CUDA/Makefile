@@ -11,6 +11,7 @@ CC_FLAGS = -g -O3 -Wall -I$(MATRIX_DIR)
 # CUDA compiler
 NVCC = $(CUDA_DIR)/bin/nvcc
 NVCC_FLAGS = -I$(CUDA_DIR)/include -I$(SDK_DIR)/common/inc
+ARCH ?= -arch=sm_70
 
 # Matrix library path
 MATRIX_DIR = ../meschach_lib
@@ -31,17 +32,17 @@ endif
 leukocyte: detect_main.o avilib.o find_ellipse.o find_ellipse_kernel.o track_ellipse.o track_ellipse_kernel.o misc_math.o $(MATRIX_DIR)/meschach.a
 	$(CC) $(CC_FLAGS) -lm avilib.o find_ellipse.o find_ellipse_kernel.o track_ellipse.o track_ellipse_kernel.o misc_math.o detect_main.o -o leukocyte $(MATRIX_DIR)/meschach.a -L$(CUDA_LIB_DIR) -lm -lcuda -lcudart
 
-%.o: %.[ch]
+%.o: %.c %.h
 	$(CC)  $(OUTPUT) $(CC_FLAGS) $< -c
 
 detect_main.o: detect_main.c find_ellipse.h track_ellipse.h avilib.h 
 	$(CC) $(CC_FLAGS) detect_main.c -c
 
 find_ellipse_kernel.o: find_ellipse_kernel.cu find_ellipse_kernel.h
-	$(NVCC) $(NVCC_FLAGS) -c find_ellipse_kernel.cu
+	$(NVCC) $(NVCC_FLAGS) $(ARCH)  -c find_ellipse_kernel.cu
 
 track_ellipse_kernel.o: track_ellipse_kernel.cu track_ellipse_kernel.h
-	$(NVCC) $(NVCC_FLAGS) -I$(MATRIX_DIR) -c track_ellipse_kernel.cu
+	$(NVCC) $(NVCC_FLAGS) $(ARCH) -I$(MATRIX_DIR) -c track_ellipse_kernel.cu
 
 find_ellipse.o: avilib.h
 
@@ -51,4 +52,4 @@ $(MATRIX_DIR)/meschach.a:
 	cd $(MATRIX_DIR); ./configure --with-all; make all; make clean
 
 clean:
-	rm -f *.o *~ leukocyte *.linkinfo
+	rm -f *.o *~ leukocyte *.linkinfo *.gch

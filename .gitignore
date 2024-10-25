@@ -15,6 +15,7 @@
 *.exe
 *.o
 *.so
+*.a
 *.out
 
 # Packages #
@@ -66,3 +67,8 @@ Benchmarks/Rodinia/src/particlefilter/particlefilter_naive
 Benchmarks/Rodinia/src/pathfinder/pathfinder
 Benchmarks/Rodinia/src/streamcluster/sc_gpu
 Benchmarks/Rodinia/src/b+tree/b+tree
+Benchmarks/Rodinia/src/srad/srad_v2/srad
+Benchmarks/Rodinia/src/srad/srad_v1/srad
+Benchmarks/Rodinia/src/leukocyte/CUDA/leukocyte
+Benchmarks/Rodinia/src/kmeans/kmeans
+Benchmarks/Rodinia/src/hybridsort/hybridsort
