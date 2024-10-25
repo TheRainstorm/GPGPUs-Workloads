@@ -28,5 +28,11 @@ polybench: prepare_dir
 		cp "$$file" "$(BIN)/$$new_name"; \
 	done
 
+GPU_Microbenchmark: prepare_dir
+	# make all -C Benchmarks/GPU_Microbenchmark
+	cp Benchmarks/GPU_Microbenchmark/bin/* $(BIN)
+
 clean:
 	make clean -C Benchmarks/Rodinia
+	make clean -C Benchmarks/PolyBench
+	make clean -C Benchmarks/GPU_Microbenchmark

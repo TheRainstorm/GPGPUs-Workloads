@@ -14,4 +14,4 @@ float: ex_particle_CUDA_float_seq.cu
 	$(NVCC) $(NVCC_FLAGS) $(ARCH) -L$(CUDA_LIB_DIR) -lcuda -g -lm ex_particle_CUDA_float_seq.cu -o particlefilter_float
 
 clean:
-	rm particlefilter_naive particlefilter_float
+	rm -f particlefilter_naive particlefilter_float

@@ -100,7 +100,7 @@ main.o:	./common.h \
 #	CLEAN
 # ===============================================================
 clean:
-	rm	b+tree *.o \
+	rm -f b+tree *.o \
 		./kernel/*.o \
 		./util/timer/*.o \
 		./util/num/*.o \
