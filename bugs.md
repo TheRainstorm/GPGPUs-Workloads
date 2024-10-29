@@ -98,3 +98,28 @@ suffix-tree.cpp:1807:34: note: suggested alternative: ‘seek’
 ```
 
 add `#include <unistd.h>` to the `suffix-tree.cpp`
+
+## DeepBench
+
+```shell
+/usr/local/cuda-11.0/bin/nvcc conv_bench.cu -DUSE_TENSOR_CORES=1 -DPAD_KERNELS=1 -o bin/conv_bench -I ../kernels/ -I /usr/local/cuda-11.0/include -I /usr/local/cudnn/include/ -L /usr/local/cudnn/lib64/ -L /usr/local/cuda-11.0/lib64 -lcurand -lcudnn -gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_80,code=sm_80 -std=c++11
+...
+
+/usr/local/cuda-11.0/include/cub/util_cpp_dialect.cuh:129:13: warning: CUB requires C++14. Please pass -std=c++14 to your compiler. Define CUB_IGNORE_DEPRECATED_CPP_DIALECT to suppress this message.
+   CUB_COMPILER_DEPRECATION(C++14, pass -std=c++14 to your compiler);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       
+cudnn_helper.h(378): error: identifier "cudnnSetRNNDescriptor" is undefined
+
+1 error detected in the compilation of "conv_bench.cu".
+```
+
+https://root-forum.cern.ch/t/issue-building-root-with-cudnn/40557
+
+need cudnn <= 7
+
+```shell
+sudo apt purge libcudnn8-dev
+
+...
+update-alternatives: using /usr/include/x86_64-linux-gnu/cudnn_v7.h to provide /usr/include/cudnn.h (libcudnn) in auto mode
+```

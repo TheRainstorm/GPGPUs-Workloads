@@ -1,4 +1,6 @@
 
+all: rodinia-3.1 polybench GPU_Microbenchmark
+
 prepare_dir:
 	mkdir -p $(BIN)
 
@@ -41,6 +43,9 @@ GPU_Microbenchmark: prepare_dir
 	make all -C Benchmarks/GPU_Microbenchmark
 	cp Benchmarks/GPU_Microbenchmark/bin/* $(BIN)
 
+deepbench:
+	make -C ML/DeepBench
+	
 clean:
 	make clean -C Benchmarks/Rodinia
 	make clean -C Benchmarks/PolyBench
