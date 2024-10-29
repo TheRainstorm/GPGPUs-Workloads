@@ -1,0 +1,50 @@
+From e69497a9862392ae5fae5a1ec27dcbcbcd378704 Mon Sep 17 00:00:00 2001
+From: Fuyan Yuan <33221728+TheRainstorm@users.noreply.github.com>
+Date: Tue, 29 Oct 2024 17:38:40 +0800
+Subject: [PATCH 1/2] fit Makefile
+
+---
+ code/nvidia/Makefile | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/code/nvidia/Makefile b/code/nvidia/Makefile
+index 099d772..9007c9a 100644
+--- a/code/nvidia/Makefile
++++ b/code/nvidia/Makefile
+@@ -19,8 +19,13 @@ CONV_PATH?=$
+ KERNELS_DIR=../kernels/
+ PAD_KERNELS?=1
+ USE_TENSOR_CORES?=0
++ifeq ($(USE_TENSOR_CORES), 1)
++    TENSOR_SUFFIX = -tensor
++else
++    TENSOR_SUFFIX =
++endif
+ COMMA=,
+-NVCC_ARCH_ARGS=$(foreach a,$(subst $(COMMA), ,$(ARCH)),--generate-code arch=$(patsubst sm_%,compute_%,$(a)),code=$(a))
++NVCC_ARCH_ARGS?=$(foreach a,$(subst $(COMMA), ,$(ARCH)),--generate-code arch=$(patsubst sm_%,compute_%,$(a)),code=$(a))
+ 
+ .PHONY=all gemm conv rnn all_reduce nccl_single nccl_mpi clean
+ 
+@@ -28,15 +33,15 @@ all: gemm conv rnn all_reduce
+ 
+ gemm:
+ 	$(MKDIR) $(BIN_DIR) 
+-	$(CUDA_PATH)/bin/$(NVCC) gemm_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/gemm_bench -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -L $(BLAS_PATH) -l$(BLAS_LIBRARY) -L $(CUDA_LIB64) -lcurand $(NVCC_ARCH_ARGS) -std=c++11
++	$(CUDA_PATH)/bin/$(NVCC) gemm_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/gemm_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -L $(BLAS_PATH) -l$(BLAS_LIBRARY) -L $(CUDA_LIB64) -lcurand $(NVCC_ARCH_ARGS) -std=c++11
+ 
+ conv:
+ 	$(MKDIR) $(BIN_DIR)
+-	$(CUDA_PATH)/bin/$(NVCC) conv_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/conv_bench -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
++	$(CUDA_PATH)/bin/$(NVCC) conv_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/conv_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
+ 
+ rnn:
+ 	$(MKDIR) $(BIN_DIR)
+-	$(CUDA_PATH)/bin/$(NVCC) rnn_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -o $(BIN_DIR)/rnn_bench -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
++	$(CUDA_PATH)/bin/$(NVCC) rnn_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -o $(BIN_DIR)/rnn_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
+ 
+ all_reduce: nccl_single nccl_mpi
+ 
+-- 
+2.34.1
+
