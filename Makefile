@@ -1,5 +1,5 @@
 
-all: rodinia-3.1 polybench GPU_Microbenchmark
+all: rodinia-3.1 polybench GPU_Microbenchmark deepbench Tango
 
 prepare_dir:
 	mkdir -p $(BIN)
@@ -45,8 +45,13 @@ GPU_Microbenchmark: prepare_dir
 
 deepbench:
 	make -C ML/DeepBench
-	
+
+Tango:
+	make -C ML/Tango
+
 clean:
 	make clean -C Benchmarks/Rodinia
 	make clean -C Benchmarks/PolyBench
 	make clean -C Benchmarks/GPU_Microbenchmark
+	make clean -C Benchmarks/DeepBench
+	make clean -C Benchmarks/Tango

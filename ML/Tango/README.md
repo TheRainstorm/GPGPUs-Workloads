@@ -1,17 +1,10 @@
 Tango: A Deep Neural Network Benchmark Suite for Various Accelerators
 =============
 
-* since the source code & the data is big consider cloning from the source: https://gitlab.com/Tango-DNNbench/Tango
+The data files in the original repository are large and therefore not included in this repository. However, the required source code is relatively small, so it has been added here to simplify maintenance and make compilation straightforward.
 
-* Add what's isnide GPU source code: https://gitlab.com/Tango-DNNbench/Tango/-/tree/master/GPU in this folder
-
-
-## To build & run :
-
-* building the applications is straight forwarding, you just need to build _host.cu_ file nvcc command
-
-* all the information can be dfound their Gitlab page (https://gitlab.com/Tango-DNNbench/Tango)
-
+Original Source Repository: [Tango-DNNbench](https://gitlab.com/Tango-DNNbench/Tango)
+Source Commit Hash: 59db69914bf5391b8f39b8b8463482794afe3956
 
 ## Paper:
 Aajna Karki, Chethan Palangotu Keshava, Spoorthi Mysore Shivakumar, Joshua Skow, Goutam Madhukeshwar Hegde, and Hyeran Jeon 

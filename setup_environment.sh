@@ -21,7 +21,7 @@ CUDA_VERSION=`nvcc --version | grep release | sed -re 's/.*release ([0-9]+\.[0-9
 CUDA_VERSION_MAJOR=`nvcc --version | grep release | sed -re 's/.*release ([0-9]+)\..*/\1/'`;
 BINDIR=$REPO_ROOT/bin/$CUDA_VERSION
 BINSUBDIR=release
-export BIN=$BINDIR/$BINSUBDIR
+export BIN=$BINDIR/$BINSUBDIR/
 
 GENCODE_SM10="-gencode arch=compute_10,code=sm_10"
 GENCODE_SM13="-gencode arch=compute_13,code=sm_13"
