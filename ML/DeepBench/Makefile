@@ -15,3 +15,6 @@ deepbench:
 deepbench-tensor:
 	make USE_TENSOR_CORES=1 gemm conv -C src/code/nvidia
 	cp src/code/nvidia/bin/* $(BIN)/
+
+clean:
+	rm -rf src/code/nvidia/bin/

@@ -40,6 +40,6 @@ export ARCH="$GENCODE_SM60 $GENCODE_SM70 $GENCODE_SM80"
 
 echo "[Summary]:"
 echo "\tCUDA_PATH = $CUDA_PATH"
-echo "\tGENCODE_FLAGS = $GENCODE_FLAGS"
+echo "\tARCH = $ARCH"
 echo "\tBIN = $BIN"
 export GPUAPPS_SETUP_ENVIRONMENT_WAS_RUN=1

@@ -99,6 +99,29 @@ suffix-tree.cpp:1807:34: note: suggested alternative: ‘seek’
 
 add `#include <unistd.h>` to the `suffix-tree.cpp`
 
+### Kmeans, leukocyte, mummergpu
+
+```shell
+
+not work with CUDA 12.0
+```shell
+/usr/local/cuda-12.0/bin/nvcc -I/usr/local/cuda-12.0/include  -O2 -gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_80,code=sm_80 -c kmeans_cuda.cu
+kmeans_cuda_kernel.cu(15): error: texture is not a template
+
+kmeans_cuda_kernel.cu(17): error: texture is not a template
+
+kmeans_cuda_kernel.cu(18): error: texture is not a template
+
+kmeans_cuda_kernel.cu(89): error: no instance of overloaded function "tex1Dfetch" matches the argument list
+            argument types are: (<error-type>, int)
+
+kmeans_cuda.cu(169): error: identifier "cudaBindTexture" is undefined
+
+5 errors detected in the compilation of "kmeans_cuda.cu".
+```
+
+leukocyte and mummergpu have similar issue
+
 ## DeepBench
 
 ```shell
@@ -113,13 +136,6 @@ cudnn_helper.h(378): error: identifier "cudnnSetRNNDescriptor" is undefined
 1 error detected in the compilation of "conv_bench.cu".
 ```
 
-https://root-forum.cern.ch/t/issue-building-root-with-cudnn/40557
+Solution: `cudnnSetRNNDescriptor` is not available in cuDNN 8, use `cudnnSetRNNDescriptor_v6` instead.
 
-need cudnn <= 7
-
-```shell
-sudo apt purge libcudnn8-dev
-
-...
-update-alternatives: using /usr/include/x86_64-linux-gnu/cudnn_v7.h to provide /usr/include/cudnn.h (libcudnn) in auto mode
-```
+reference: https://github.com/flashlight/flashlight/issues/147

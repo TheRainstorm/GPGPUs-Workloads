@@ -29,19 +29,17 @@ make rodinia-3.1
 
 3. check executale files in `bin` directory, e.g `bin/11.0/release`
 
+With different versions of CUDA and GPUs, not all programs are guaranteed to compile successfully (for example, due to API changes, some old programs may become incompatible). It's best to compile the program and then check what is in the bin directory. Based on your needs, decide whether or not to fix the compilation errors.
+
 ### Compile for different GPU architecture
 
 Most benchmark's makefile is rewrite to use `ARCH` when compiling. You can change `ARCH` in `setup_environment.sh` to match your GPU architecture.
 
-# Run (data files)
+# Run and Data files
 
 Most applications have a `how_to_run.txt`/`run` file that explains how to run the application.
 
-Some application need data files to run. Since the data files are too large, the data files are deleted from the git repo using:
-
-```shell
-git filter-repo --path <path_to_delete> --invert-paths
-```
+Some application need data files to run. Since the data files are too large, the data files is not include.
 
 Most collected benchmarks have infomation on how to get the data files. You can download the data files from the original source.
 
