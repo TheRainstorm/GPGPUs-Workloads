@@ -25,6 +25,9 @@ source setup_environment.sh
 
 ```shell
 make rodinia-3.1
+
+# compile all, using -j to compile in parallel
+make -j
 ```
 
 3. check executale files in `bin` directory, e.g `bin/11.0/release`
