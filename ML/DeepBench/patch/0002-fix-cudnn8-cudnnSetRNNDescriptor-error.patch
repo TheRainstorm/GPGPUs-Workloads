@@ -1,7 +1,7 @@
 From 849e8927764c6cce75f5c4aac36d3e0809c7bb9f Mon Sep 17 00:00:00 2001
 From: Fuyan Yuan <33221728+TheRainstorm@users.noreply.github.com>
 Date: Tue, 29 Oct 2024 17:39:38 +0800
-Subject: [PATCH 2/2] fix cudnn8 cudnnSetRNNDescriptor error
+Subject: [PATCH 2/3] fix cudnn8 cudnnSetRNNDescriptor error
 
 ---
  code/nvidia/cudnn_helper.h | 4 ++++
@@ -24,5 +24,5 @@ index 5ef7afe..3c1759e 100644
  #else
          CHECK_CUDNN_ERROR(cudnnSetRNNDescriptor(*desc,
 -- 
-2.34.1
+2.25.1
 

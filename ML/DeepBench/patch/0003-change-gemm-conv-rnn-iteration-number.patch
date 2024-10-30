@@ -1,0 +1,109 @@
+From 2f9127da02f512bc077f406f534058fcd10d6c1c Mon Sep 17 00:00:00 2001
+From: Fuyan Yuan <33221728+TheRainstorm@users.noreply.github.com>
+Date: Wed, 30 Oct 2024 15:06:36 +0800
+Subject: [PATCH 3/3] change gemm, conv, rnn iteration number
+
+---
+ code/nvidia/Makefile      | 6 +++---
+ code/nvidia/conv_bench.cu | 6 ++++--
+ code/nvidia/gemm_bench.cu | 6 +++++-
+ code/nvidia/rnn_bench.cu  | 5 ++++-
+ 4 files changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/code/nvidia/Makefile b/code/nvidia/Makefile
+index 9007c9a..b9401ad 100644
+--- a/code/nvidia/Makefile
++++ b/code/nvidia/Makefile
+@@ -33,15 +33,15 @@ all: gemm conv rnn all_reduce
+ 
+ gemm:
+ 	$(MKDIR) $(BIN_DIR) 
+-	$(CUDA_PATH)/bin/$(NVCC) gemm_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/gemm_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -L $(BLAS_PATH) -l$(BLAS_LIBRARY) -L $(CUDA_LIB64) -lcurand $(NVCC_ARCH_ARGS) -std=c++11
++	$(CUDA_PATH)/bin/$(NVCC) gemm_bench.cu -DNUMREPEAT=$(NUMREPEAT) -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/gemm_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -L $(BLAS_PATH) -l$(BLAS_LIBRARY) -L $(CUDA_LIB64) -lcurand $(NVCC_ARCH_ARGS) -std=c++11
+ 
+ conv:
+ 	$(MKDIR) $(BIN_DIR)
+-	$(CUDA_PATH)/bin/$(NVCC) conv_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/conv_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
++	$(CUDA_PATH)/bin/$(NVCC) conv_bench.cu -DNUMREPEAT=$(NUMREPEAT) -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -DPAD_KERNELS=$(PAD_KERNELS) -o $(BIN_DIR)/conv_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
+ 
+ rnn:
+ 	$(MKDIR) $(BIN_DIR)
+-	$(CUDA_PATH)/bin/$(NVCC) rnn_bench.cu -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -o $(BIN_DIR)/rnn_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
++	$(CUDA_PATH)/bin/$(NVCC) rnn_bench.cu -DNUMREPEAT=$(NUMREPEAT) -DUSE_TENSOR_CORES=$(USE_TENSOR_CORES) -o $(BIN_DIR)/rnn_bench$(TENSOR_SUFFIX) -I $(KERNELS_DIR) -I $(CUDA_PATH)/include -I $(CUDNN_PATH)/include/ -L $(CUDNN_PATH)/lib64/ -L $(CUDA_LIB64) -lcurand -lcudnn $(NVCC_ARCH_ARGS) -std=c++11
+ 
+ all_reduce: nccl_single nccl_mpi
+ 
+diff --git a/code/nvidia/conv_bench.cu b/code/nvidia/conv_bench.cu
+index ccf23d1..ef69636 100644
+--- a/code/nvidia/conv_bench.cu
++++ b/code/nvidia/conv_bench.cu
+@@ -29,7 +29,9 @@
+ #endif
+ #endif
+ 
+-
++#ifndef NUMREPEAT
++define NUMREPEAT 300
++#endif
+ /*
+ Usage:
+ 
+@@ -459,7 +461,7 @@ std::tuple<int, int, int, std::string> time_cnn(
+ 
+ int main(int argc, char **argv) {
+ 
+-    int num_repeats = 300;
++    int num_repeats = NUMREPEAT;
+ 
+     int inference = 0;
+ 
+diff --git a/code/nvidia/gemm_bench.cu b/code/nvidia/gemm_bench.cu
+index 83ead1c..d176fbd 100644
+--- a/code/nvidia/gemm_bench.cu
++++ b/code/nvidia/gemm_bench.cu
+@@ -30,6 +30,10 @@
+ #endif
+ #endif
+ 
++#ifndef NUMREPEAT
++define NUMREPEAT 400
++#endif
++
+ /*
+ Usage:
+ 
+@@ -75,7 +79,7 @@ int time_gemm(Tensor<T1> A, Tensor<T1> B, Tensor<T2> C, bool a_t, bool b_t, cubl
+     int k = a_t ? A.dims()[0] : A.dims()[1];
+     int n = C.dims()[1];
+ 
+-    int numRepeats = 400;
++    int numRepeats = NUMREPEAT;
+     cublasStatus_t stat;
+ 
+ #if (__CUDACC_VER_MAJOR__ >= 8)
+diff --git a/code/nvidia/rnn_bench.cu b/code/nvidia/rnn_bench.cu
+index c0454ba..177cda6 100644
+--- a/code/nvidia/rnn_bench.cu
++++ b/code/nvidia/rnn_bench.cu
+@@ -52,6 +52,9 @@ float, half, int8 for inference
+ #endif
+ #endif
+ 
++#ifndef NUMREPEAT
++define NUMREPEAT 100
++#endif
+ 
+ cudnnHandle_t cudnn_handle;
+ curandGenerator_t curand_gen;
+@@ -288,7 +291,7 @@ std::tuple<int, int, int> time_rnn(int hidden_size,
+     auto dcx = rand<T>({hidden_size, batch_size}, curand_gen);
+     auto dcy = rand<T>({hidden_size, batch_size}, curand_gen);
+ 
+-    int numRepeats = 100;
++    int numRepeats = NUMREPEAT;
+ 
+     //Warm up
+     rnn.forward(x, hx, cx, y, hy, cy);
+-- 
+2.25.1
+
