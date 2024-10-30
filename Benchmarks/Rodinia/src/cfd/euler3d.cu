@@ -14,7 +14,9 @@
  * 
  */ 
 #define GAMMA 1.4f
+#ifndef iterations
 #define iterations 2000
+#endif
 // #ifndef block_length
 // 	#define block_length 192
 // #endif
