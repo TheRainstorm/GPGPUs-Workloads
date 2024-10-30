@@ -77,6 +77,17 @@ add the following line to the `leukocyte/meschach_lib/Makefile`
 CFLAGS = -O -fPIC
 ```
 
+meschach_lib compile error lead to leukocyte link error
+```shell
+gcc -g -O3 -Wall -I../meschach_lib -lm avilib.o find_ellipse.o find_ellipse_kernel.o track_ellipse.o track_ellipse_kernel.o misc_math.o detect_main.o -o leukocyte ../meschach_lib/meschach.a -L/usr/local/cuda-11.0/lib64 -lm -lcuda -lcudart
+/usr/bin/ld: ../meschach_lib/meschach.a(meminfo.o):(.data.rel+0x40): undefined reference to `zv_free'
+/usr/bin/ld: ../meschach_lib/meschach.a(meminfo.o):(.data.rel+0x48): undefined reference to `zm_free'
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:33: leukocyte] Error 1
+```
+
+To tricky to fix, therefore, this app is removed.
+
 ### mummergpu
 
 ```shell

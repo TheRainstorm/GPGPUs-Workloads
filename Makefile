@@ -22,7 +22,7 @@ rodinia-3.1: prepare_dir
 	-cp Benchmarks/Rodinia/src/particlefilter/particlefilter_float $(BIN)/particlefilter_float-rodinia-3.1
 	-cp Benchmarks/Rodinia/src/particlefilter/particlefilter_naive $(BIN)/particlefilter_naive-rodinia-3.1
 	-cp Benchmarks/Rodinia/src/hybridsort/hybridsort $(BIN)/hybridsort-rodinia-3.1
-	-cp Benchmarks/Rodinia/src/leukocyte/CUDA/leukocyte $(BIN)/leukocyte-rodinia-3.1
+	# -cp Benchmarks/Rodinia/src/leukocyte/CUDA/leukocyte $(BIN)/leukocyte-rodinia-3.1
 	-cp Benchmarks/Rodinia/src/mummergpu/bin/mummergpu $(BIN)/mummergpu-rodinia-3.1
 	-cp Benchmarks/Rodinia/src/myocyte/myocyte.out $(BIN)/myocyte-rodinia-3.1
 	-cp Benchmarks/Rodinia/src/srad/srad_v1/srad $(BIN)/srad_v1-rodinia-3.1

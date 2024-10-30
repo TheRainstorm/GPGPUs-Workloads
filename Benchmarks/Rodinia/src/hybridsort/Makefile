@@ -22,4 +22,4 @@ hybridsort: main.cu  bucketsort.cu bucketsort.cuh bucketsort_kernel.cu histogram
 
 
 clean:
-	rm-f *.o hybridsort
+	rm -f *.o hybridsort
